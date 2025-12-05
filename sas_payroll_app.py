@@ -78,6 +78,59 @@ MONTHLY_OVERRIDES = {
 }
 
 # ==========================================
+# 2. HELPER FUNCTIONS
+# ==========================================
+
+def get_month_config(ym):
+    """Retrieve config for a specific YYYY-MM, merging defaults with overrides."""
+    # Start with a deep copy of the template
+    cfg = json.loads(json.dumps(DEFAULT_CONFIG_TEMPLATE))
+    
+    # 1. Apply global user IRPF setting if set
+    if 'global_irpf' in st.session_state:
+        cfg['irpf'] = st.session_state['global_irpf'] / 100.0
+
+    # 2. Apply hardcoded monthly overrides (if any specific logic differs)
+    if ym in MONTHLY_OVERRIDES:
+        # Deep merge simplistic
+        over = MONTHLY_OVERRIDES[ym]
+        if 'bases' in over:
+            if 'ccBaseWorker' in over['bases']: cfg['bases']['ccBaseWorker'] = over['bases']['ccBaseWorker']
+            if 'solidarity' in over['bases']: cfg['bases']['solidarity'] = over['bases']['solidarity']
+            
+    # 3. Apply user specific month overrides from session state
+    if 'month_configs' in st.session_state and ym in st.session_state['month_configs']:
+        user_cfg = st.session_state['month_configs'][ym]
+        # Recursively update is complex, for now we assume user_cfg is a partial patch?
+        # Simpler: if user has a config, it replaces the auto one OR we assume user inputs top-level fields
+        # In this app, let's keep it simple: we store just a few editable fields per month
+        if 'irpf' in user_cfg: cfg['irpf'] = user_cfg['irpf']
+        if 'prodFija' in user_cfg: cfg['prodFija'] = user_cfg['prodFija']
+        # We could add more overrides here if needed
+        
+    return cfg
+
+def classify_date(d):
+    """Determine guard type from date."""
+    wd = d.weekday() # 0=Mon, 6=Sun
+    if wd == 6: return "G_DOMINGO"
+    if wd == 5: return "G_SABADO"
+    if wd == 4: return "G_VIERNES"
+    return "G_LJ"
+
+def next_month_str(ym_str):
+    """'2025-05' -> '2025-06'"""
+    y, m = map(int, ym_str.split('-'))
+    m += 1
+    if m > 12:
+        m = 1
+        y += 1
+    return f"{y}-{m:02d}"
+
+def fmt_euro(val):
+    return f"{val:,.2f} €".replace(",", "X").replace(".", ",").replace("X", ".")
+
+# ==========================================
 # 3. STATE MANAGEMENT
 # ==========================================
 
