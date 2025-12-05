@@ -17,9 +17,37 @@ st.set_page_config(
 )
 
 # Hardcoded holidays/special x2 dates (MM-DD)
+# Hardcoded holidays/special x2 dates (MM-DD)
 SPECIAL_MD = {'01-01', '01-06', '02-28', '10-07', '12-25'} # 10-07 added/verified
 
-# ... (omitted lines)
+# Default "normal payroll" net amounts (approx)
+TYPICAL_NORMAL_BY_MONTH = {
+    '01': 1496.85, '02': 1534.05, '03': 1554.71, '04': 1575.86,
+    '05': 1491.11, '06': 1377.95, '07': 1444.33, '08': 1451.42,
+    '09': 1520.21, '10': 1557.66, '11': 1561.30, '12': 1545.01
+}
+
+# Shift Models
+# (labor: horas ordinarias/laborables, fest: horas festivas, ca: continuidad asistencial, loca: localizada)
+ACT_MODELS = {
+    "TARDE":      {"ca": 5.0,  "labor": 0.0,  "fest": 0.0,  "loca": 0.0},
+    "G_LJ":       {"ca": 5.0,  "labor": 12.0, "fest": 0.0,  "loca": 0.0},
+    "G_VIERNES":  {"ca": 5.0,  "labor": 4.0,  "fest": 8.0,  "loca": 0.0},
+    "G_SABADO":   {"ca": 0.0,  "labor": 0.0,  "fest": 24.0, "loca": 0.0},
+    "G_DOMINGO":  {"ca": 0.0,  "labor": 8.0,  "fest": 16.0, "loca": 0.0},
+    "REFUERZO":   {"ca": 7.5,  "labor": 0.0,  "fest": 0.0,  "loca": 10.0},
+    "G_24_MIX":   {"ca": 5.0,  "labor": 8.0,  "fest": 16.0, "loca": 0.0}, # Calibrated for Oct 7
+}
+
+ACT_LABELS = {
+    "TARDE": "Tarde (5h CA)",
+    "G_LJ": "Guardia L-J (17h)",
+    "G_VIERNES": "Guardia Viernes",
+    "G_SABADO": "Guardia Sábado (24h)",
+    "G_DOMINGO": "Guardia Domingo",
+    "REFUERZO": "Refuerzo (CA+Loc)",
+    "G_24_MIX": "G. 24h Mixta (8 Lab/16 Fest)"
+}
 
 # Base Config for 2025 (Updated with PDF calibrations)
 DEFAULT_CONFIG_TEMPLATE = {
