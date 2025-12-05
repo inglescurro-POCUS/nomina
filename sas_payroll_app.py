@@ -274,7 +274,7 @@ with tabs[0]:
         if os.path.exists("distribucion hora.jpeg"):
             st.image("distribucion hora.jpeg", caption="Guía visual de tipos de guardia", use_column_width=True)
         else:
-            st.warning("Imagen 'distribucion hora.jpeg' no encontrada en la carpeta.")
+            st.warning("⚠️ No veo la imagen 'distribucion hora.jpeg'. Si estás en Streamlit Cloud, asegúrate de haber subido este archivo a tu GitHub.")
     
     st.subheader("Listado de Actos")
     
@@ -346,7 +346,7 @@ for ym in sorted_months:
         
         dev024 += (m["labor"] * cfg["rates"]["labor"] + m["loca"] * loca_rate_val) * factor
         dev025 += (m["fest"] * cfg["rates"]["fest"]) * factor
-        dev180 += (m["ca"] * cfg["rates"]["ca"]) * factor
+        dev180 += (m["ca"] * cfg["rates"]["ca"]) # CA no se multiplica por x2 en festivos especiales
         
     devPF = cfg["prodFija"]
     devTotal = dev024 + dev025 + dev180 + devPF
