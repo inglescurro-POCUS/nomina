@@ -147,14 +147,7 @@ if 'acts' not in st.session_state:
     # Simpler: We'll inject it as a standard G_SABADO (24h) but knowing it might not perfectly match Lab hours unless we tweak.
     # WAIT: User wants "Optimized version". I will add "G_FEST_ESP_MIX" to models.
     
-    st.session_state['acts'] = [
-        {"id": str(uuid.uuid4()), "date": "2025-10-03", "type": "G_VIERNES", "special": False}, # Fri
-        {"id": str(uuid.uuid4()), "date": "2025-10-07", "type": "G_24_MIX", "special": True},   # Tue Special x2
-        {"id": str(uuid.uuid4()), "date": "2025-10-15", "type": "G_LJ", "special": False},      # Wed
-        {"id": str(uuid.uuid4()), "date": "2025-10-20", "type": "G_LJ", "special": False},      # Mon
-        {"id": str(uuid.uuid4()), "date": "2025-10-27", "type": "G_LJ", "special": False},      # Mon
-        {"id": str(uuid.uuid4()), "date": "2025-10-30", "type": "TARDE", "special": False},     # Thu Tarde
-    ]
+    st.session_state['acts'] = []
 
 if 'month_configs' not in st.session_state:
     st.session_state['month_configs'] = {}
@@ -274,7 +267,9 @@ with tabs[0]:
         if os.path.exists("distribucion hora.jpeg"):
             st.image("distribucion hora.jpeg", caption="Guía visual de tipos de guardia", use_column_width=True)
         else:
-            st.warning("⚠️ No veo la imagen 'distribucion hora.jpeg'. Si estás en Streamlit Cloud, asegúrate de haber subido este archivo a tu GitHub.")
+            files_present = os.listdir('.')
+            st.warning(f"⚠️ No encuentro la imagen. Ficheros que veo aquí: {files_present}")
+            st.info("Asegúrate de que el nombre sea EXACTO: 'distribucion hora.jpeg'")
     
     st.subheader("Listado de Actos")
     
