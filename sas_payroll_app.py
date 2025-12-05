@@ -70,7 +70,12 @@ DEFAULT_CONFIG_TEMPLATE = {
     }
 }
 
-# ... (omitted)
+# Specific overrides known from original code
+MONTHLY_OVERRIDES = {
+    "2025-03": {"bases": {"solidarity": [{"base": 490.95, "rate": 0.0015}, {"base": 614.30, "rate": 0.0017}]}},
+    "2025-04": {"bases": {"solidarity": [{"base": 490.95, "rate": 0.0015}, {"base": 1169.64, "rate": 0.0017}]}},
+    "2025-06": {"bases": {"ccBaseWorker": 2098.15, "solidarity": [{"base": 490.95, "rate": 0.0015}, {"base": 1354.80, "rate": 0.0017}]}},
+}
 
 # ==========================================
 # 3. STATE MANAGEMENT
