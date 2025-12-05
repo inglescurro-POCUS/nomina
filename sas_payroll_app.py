@@ -53,8 +53,8 @@ ACT_LABELS = {
 DEFAULT_CONFIG_TEMPLATE = {
     "irpf": 0.35,  # 35% default
     "rates": {
-        "labor": 26.94,
-        "fest": 29.33,
+        "labor": 27.07,
+        "fest": 29.47,
         "ca": 46.88,
         "locaFactor": 0.5
     },
