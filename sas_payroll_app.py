@@ -4,6 +4,7 @@ import datetime
 import uuid
 import json
 import calendar
+import os
 
 # ==========================================
 # 1. CONSTANTS & CONFIGURATION
@@ -55,7 +56,7 @@ DEFAULT_CONFIG_TEMPLATE = {
     "rates": {
         "labor": 27.07,
         "fest": 29.47,
-        "ca": 46.88,
+        "ca": 47.11,
         "locaFactor": 0.5
     },
     "prodFija": 733.42,
@@ -269,6 +270,12 @@ with tabs[0]:
                 st.rerun()
 
     st.divider()
+    with st.expander("ℹ️ Ver tabla oficial de distribución de horas"):
+        if os.path.exists("distribucion hora.jpeg"):
+            st.image("distribucion hora.jpeg", caption="Guía visual de tipos de guardia", use_column_width=True)
+        else:
+            st.warning("Imagen 'distribucion hora.jpeg' no encontrada en la carpeta.")
+    
     st.subheader("Listado de Actos")
     
     if not st.session_state['acts']:
